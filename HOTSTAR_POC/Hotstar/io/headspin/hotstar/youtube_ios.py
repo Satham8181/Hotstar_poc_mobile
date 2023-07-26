@@ -43,8 +43,8 @@ class TimesIosTest(unittest.TestCase):
 	app_name = "YouTube"
 	bundle_id = "com.google.ios.youtube"
 	package=bundle_id   
-	#test_name = "Bupa Touch TC1"
-	test_name = "test_session"
+	test_name = "Youtube iOS"
+	#test_name = "test_session"
 	session_type = "page load time"
 	implicitly_wait_time = 30
 	delta_time = 2
