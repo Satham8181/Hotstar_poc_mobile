@@ -114,7 +114,7 @@ def init_caps(self, video_only=False, auto_launch=True):
         self.desired_caps['noReset'] = False
 
     # Headspin caps
-    self.desired_caps['headspin:controlLock'] = True
+    self.desired_caps['headspin:controlLock'] = False
     if self.use_capture:
         if video_only:
             self.desired_caps['headspin:capture.video'] = True
