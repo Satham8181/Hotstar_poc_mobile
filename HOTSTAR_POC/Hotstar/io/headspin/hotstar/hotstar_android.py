@@ -148,8 +148,9 @@ class BupaAndroidTest(unittest.TestCase):
         self.driver.launch_app()
         try:
             #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
-            launch = (MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
-            self.wait.until(EC.visibility_of_element_located(launch))
+            self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+            # launch = (MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+            # self.wait.until(EC.visibility_of_element_located(launch))
         except:
             skip = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_icon_paywall_header_close"]')
             skip.click()
