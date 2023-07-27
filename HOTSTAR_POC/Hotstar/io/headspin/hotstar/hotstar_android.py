@@ -46,7 +46,7 @@ class BupaAndroidTest(unittest.TestCase):
     test_name = "Hotstar Android"
     #test_name = "test_session"
     session_type = "page load time"
-    implicitly_wait_time = 30
+    implicitly_wait_time = 10
     delta_time = 1
 
     def init_vars(self):
