@@ -46,7 +46,7 @@ class BupaAndroidTest(unittest.TestCase):
     test_name = "Hotstar Android"
     #test_name = "test_session"
     session_type = "page load time"
-    implicitly_wait_time = 10
+    implicitly_wait_time = 30
     delta_time = 1
 
     def init_vars(self):
@@ -129,7 +129,7 @@ class BupaAndroidTest(unittest.TestCase):
 
     def test_hotstar(self):
         self.short_wait = WebDriverWait(self.driver, 6)
-        self.wait = WebDriverWait(self.driver, 20)
+        self.wait = WebDriverWait(self.driver, 8)
         self.long_wait =  WebDriverWait(self.driver, 30)
         self.driver.implicitly_wait(self.implicitly_wait_time)
         self.driver.terminate_app(self.package)
@@ -147,9 +147,9 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) 
         self.driver.launch_app()
         try:
-            self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
-            # launch = (MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
-            # self.short_wait.until(EC.visibility_of_element_located(launch))
+            #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
+            launch = (MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+            self.wait.until(EC.visibility_of_element_located(launch))
         except:
             skip = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_icon_paywall_header_close"]')
             skip.click()
