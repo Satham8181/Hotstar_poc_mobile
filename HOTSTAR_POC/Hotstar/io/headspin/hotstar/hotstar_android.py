@@ -227,7 +227,7 @@ class BupaAndroidTest(unittest.TestCase):
         logger.info("Add is over, video started playing")
         sleep(30)
         #logger.info("Logout")
-        self.pass_count += 1
+        self.pass_count += 2
 
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.99
 
