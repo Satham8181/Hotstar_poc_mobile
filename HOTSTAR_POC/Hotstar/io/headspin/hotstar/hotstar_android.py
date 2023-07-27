@@ -224,7 +224,7 @@ class BupaAndroidTest(unittest.TestCase):
        # self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_area_player_control_ui_wrapper"]')
         #self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) - 1000
         logger.info("Add is over, video started playing")
-        sleep(2)
+        sleep(30)
         #logger.info("Logout")
         self.pass_count += 1
 
