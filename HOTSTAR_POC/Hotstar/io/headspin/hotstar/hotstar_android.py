@@ -147,9 +147,9 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) 
         self.driver.launch_app()
         try:
-           # self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
-            launch = (MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
-            self.short_wait.until(EC.visibility_of_element_located(launch))
+            self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
+            # launch = (MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+            # self.short_wait.until(EC.visibility_of_element_located(launch))
         except:
             skip = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_icon_paywall_header_close"]')
             skip.click()
@@ -207,8 +207,9 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4000
         movie_image.click()
         #sleep(2)
-        watch = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Watch from Beginning")')
+        #watch = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Watch from Beginning")')
        # watch = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Watch Latest Season")')
+        watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="Test Tag Button Layout Start Icon"]')
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
         sleep(2)
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
@@ -228,7 +229,7 @@ class BupaAndroidTest(unittest.TestCase):
         #logger.info("Logout")
         self.pass_count += 1
 
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.92
+        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.99
 
     def screen_size_swipe(self):
         screen_size = self.driver.get_window_size()
