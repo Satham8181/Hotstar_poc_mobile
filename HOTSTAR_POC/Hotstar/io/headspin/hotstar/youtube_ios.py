@@ -201,7 +201,7 @@ class TimesIosTest(unittest.TestCase):
 		sleep(5)
 		self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) + 4500
 		self.driver.activate_app(self.bundle_id)
-		self.driver.find_element(MBy.NAME, "eml.video_display_full_layout")
+		self.driver.find_element(MBy.NAME, "eml.vwc")
 		self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000)) + 200
 		logger.info("App launched")
 		self.pass_count += 1
