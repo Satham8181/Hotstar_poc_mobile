@@ -146,8 +146,13 @@ class BupaAndroidTest(unittest.TestCase):
         sleep(10)
         self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) 
         self.driver.launch_app()
-        self.driver.find_element(MBy.XPATH, '//*[@resource-id="com.amazon.avod.thirdpartyclient:id/card_cover_art_state"]')
-        self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))
+        try:
+            self.driver.find_element(MBy.XPATH, '//*[@resource-id="com.amazon.avod.thirdpartyclient:id/card_cover_art_state"]')
+            self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))
+        except:
+            profile = self.driver.find_element(MBy.ACCESSIBILITY_ID, "hsindia")
+            self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))
+            profile.click()
         sleep(4)
         logger.info("App launched")
         self.pass_count += 1
