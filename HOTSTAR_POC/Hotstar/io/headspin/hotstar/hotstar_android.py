@@ -218,7 +218,7 @@ class BupaAndroidTest(unittest.TestCase):
         # ad = (MBy.XPATH, '//*[@resource-id="TAG_VOD_CTA_UI"]')
         # self.short_wait.until(EC.visibility_of_element_located(ad))
         self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_area_player_control_ui_wrapper"]')
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) #- 1000
+        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) - 500
         logger.info("ad started playing")
         time.sleep(2)
         title = (MBy.XPATH, '//*[@resource-id="tag_player_action_bar_widget"]')
