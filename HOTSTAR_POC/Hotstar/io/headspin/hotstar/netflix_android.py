@@ -214,7 +214,7 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         watch.click()
         self.driver.find_element(MBy.ACCESSIBILITY_ID, "Show player controls")
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 2500
+        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) #+ 2500
         logger.info("video started playing")
         sleep(30)
         self.pass_count += 1
