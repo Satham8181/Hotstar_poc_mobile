@@ -230,7 +230,7 @@ class BupaAndroidTest(unittest.TestCase):
         #logger.info("Logout")
         self.pass_count += 2
 
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.99
+        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.98
 
     def screen_size_swipe(self):
         screen_size = self.driver.get_window_size()
