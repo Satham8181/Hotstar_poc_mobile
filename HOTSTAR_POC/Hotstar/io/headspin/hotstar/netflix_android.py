@@ -204,7 +204,7 @@ class BupaAndroidTest(unittest.TestCase):
         movie_image.click()
         #sleep(2)
         self.driver.find_element(MBy.ACCESSIBILITY_ID, "Show controls")
-        self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
+        self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) - 500
         self.pass_count += 1
         sleep(2)
         try:
