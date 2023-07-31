@@ -187,6 +187,9 @@ class TimesIosTest(unittest.TestCase):
 		ad = (MBy.IOS_PREDICATE, 'label CONTAINS "Ad"')
 		self.short_wait.until(EC.visibility_of_element_located(ad))
 		#sleep(2)
+		
+		self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.999
+		
 		try:
 			skip_ad = self.driver.find_element(MBy.IOS_PREDICATE, 'label CONTAINS "Skip ad"')
 			skip_ad.click()
