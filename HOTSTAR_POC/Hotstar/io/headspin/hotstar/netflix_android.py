@@ -185,11 +185,11 @@ class BupaAndroidTest(unittest.TestCase):
         search_btn.click()
         sleep(2)
         search_bar = self.driver.find_element(MBy.ID, "android:id/search_src_text")
-        self.kpi_labels[kpi_names.SEARCH_TIME]['start'] = int(round(time.time() * 1000)) + 5000
+        self.kpi_labels[kpi_names.SEARCH_TIME]['start'] = int(round(time.time() * 1000)) + 4000
        # search_bar.click()
         search_bar.send_keys("Interstellar")
         self.driver.find_element(MBy.ACCESSIBILITY_ID, "Interstellar")
-        self.kpi_labels[kpi_names.SEARCH_TIME]['end'] = int(round(time.time() * 1000))
+        self.kpi_labels[kpi_names.SEARCH_TIME]['end'] = int(round(time.time() * 1000)) + 1000
         logger.info("Search element found")
         time.sleep(2)
         self.pass_count += 1
