@@ -152,7 +152,7 @@ class TimesIosTest(unittest.TestCase):
 
 
 		self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['start_sensitivity'] = 0.99
-		self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['end_sensitivity'] = 0.99
+		self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['end_sensitivity'] = 0.98
 
 	def search(self):
 		self.status="Fail_serach"
