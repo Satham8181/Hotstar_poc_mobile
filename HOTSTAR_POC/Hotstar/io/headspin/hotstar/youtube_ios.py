@@ -168,6 +168,9 @@ class TimesIosTest(unittest.TestCase):
 		self.pass_count += 1
 		logger.info("Search result found")
 		sleep(3)
+
+		self.kpi_labels[kpi_names.SEARCH_TIME]['end_sensitivity'] = 0.98
+		
 		#search_result[0].click()
 		# if self.driver.find_elements(MBy.IOS_PREDICATE, 'label CONTAINS "Ad"'):
 		# 	play_image =self.driver.find_elements(MBy.XPATH,'//*[@class = "android.widget.ImageView"]//preceding-sibling::android.view.ViewGroup')
