@@ -187,8 +187,8 @@ class BupaAndroidTest(unittest.TestCase):
         search_bar = self.driver.find_element(MBy.ID, "android:id/search_src_text")
         self.kpi_labels[kpi_names.SEARCH_TIME]['start'] = int(round(time.time() * 1000)) + 5000
        # search_bar.click()
-        search_bar.send_keys("Interstellar")
-        self.driver.find_element(MBy.ACCESSIBILITY_ID, "Interstellar")
+        search_bar.send_keys("Inception")
+        self.driver.find_element(MBy.ACCESSIBILITY_ID, "Inception")
         self.kpi_labels[kpi_names.SEARCH_TIME]['end'] = int(round(time.time() * 1000)) + 1000
         logger.info("Search element found")
         time.sleep(2)
@@ -199,7 +199,7 @@ class BupaAndroidTest(unittest.TestCase):
     def video(self):
         self.status = "Fail_video_load" 
        # watch = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Watch Now")')
-        movie_image  = self.driver.find_element(MBy.ACCESSIBILITY_ID, "Interstellar")
+        movie_image  = self.driver.find_element(MBy.ACCESSIBILITY_ID, "Inception")
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4000
         movie_image.click()
         #sleep(2)
