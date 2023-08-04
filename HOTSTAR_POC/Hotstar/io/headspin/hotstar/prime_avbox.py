@@ -43,8 +43,8 @@ class BupaAndroidTest(unittest.TestCase):
     app_name = "Amazon prime"
     package = "com.amazon.avod.thirdpartyclient"
     activity = "com.amazon.avod.client.activity.HomeScreenActivity" 
-    test_name = "test session"
-    #test_name = "Amazon Prime Android"
+    #test_name = "test session"
+    test_name = "Amazon Prime Android"
     session_type = "page load time"
     implicitly_wait_time = 20
     delta_time = 1
