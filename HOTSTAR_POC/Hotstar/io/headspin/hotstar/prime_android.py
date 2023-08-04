@@ -43,15 +43,15 @@ class BupaAndroidTest(unittest.TestCase):
     app_name = "Amazon prime"
     package = "com.amazon.avod.thirdpartyclient"
     activity = "com.amazon.avod.client.activity.HomeScreenActivity" 
-    # test_name = "Hotstar TC1"
+    #test_name = "test session"
     test_name = "Amazon Prime Android"
     session_type = "page load time"
-    implicitly_wait_time = 10
+    implicitly_wait_time = 20
     delta_time = 1
 
     def init_vars(self):
         # Session Configs
-        self.KPI_COUNT = 5
+        self.KPI_COUNT = 8
         self.pass_count = 0
         self.working_dir = None
         self.private_key_file = None
@@ -135,9 +135,10 @@ class BupaAndroidTest(unittest.TestCase):
         self.driver.terminate_app(self.package)
         #self.get_screen_size()
         self.app_launch()
-        self.downloads()
+        self.download_tab()
         self.search()	
-        self.video()	
+        self.video()
+        self.downloads()	
         self.status = "Pass"   
 
     
@@ -155,24 +156,31 @@ class BupaAndroidTest(unittest.TestCase):
             profile.click()
         sleep(4)
         logger.info("App launched")
-        self.pass_count += 1
+        self.pass_count += 2
         # self.kpi_labels[kpi_names.LAUNCH_TIME]['start_sensitivity'] = 0.65
         # self.kpi_labels[kpi_names.LAUNCH_TIME]['end_sensitivity'] = 0.86
         # self.kpi_labels[kpi_names.LAUNCH_TIME]['segment_start'] = 0
         # self.kpi_labels[kpi_names.LAUNCH_TIME]['segment_end'] = -1
+        # self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['segment_start'] = 0
+        # self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['segment_end'] = 2
 
-    def downloads(self):
+    def download_tab(self):
         self.status = "Fail_download"
-        #self.screen_size_swipe()
-        #sleep(2)
         download = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Downloads")')
-        # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [0, 50, 500, 100]
-        self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4000
+        self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         download.click()
         self.driver.find_element(MBy.ID, "com.amazon.avod.thirdpartyclient:id/card_cover_art")
-        #self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [[0, 0, 504, 200]]
-        self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 1500
+        self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 1000
         logger.info("Downloaded videos found")
+        try:
+            downloads = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("The Family Man")')
+            downloads.click()
+            dot = self.driver.find_element(MBy.XPATH, '//*[@resource-id="com.amazon.avod.thirdpartyclient:id/title_card_action_button"]')
+            dot.click()
+            delete = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Delete download")')
+            delete.click()
+            sleep(2)
+        except:pass   
         self.pass_count += 1
         sleep(2)
 
@@ -180,25 +188,28 @@ class BupaAndroidTest(unittest.TestCase):
         # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['segment_start'] = -1
 
         self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['start_sensitivity'] = 0.99
-        self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['end_sensitivity'] = 0.78
+        self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['end_sensitivity'] = 0.68
         
     def search(self):
         self.status = "Fail_search" 
         search_btn=self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Find")' )
+        self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         search_btn.click()
-        sleep(2)
         search_bar = self.driver.find_element(MBy.ACCESSIBILITY_ID, 'Search Video Store. Search by actor, title..')
+        self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME]['end'] = int(round(time.time() * 1000)) #+ 5000
+        sleep(2)
         search_bar.click()
         self.kpi_labels[kpi_names.SEARCH_TIME]['start'] = int(round(time.time() * 1000)) + 7000
-        search_bar.send_keys("jai bhim")
+        search_bar.send_keys("The Family Man")
         self.driver.press_keycode(66)
         self.driver.find_element(MBy.ID, 'com.amazon.avod.thirdpartyclient:id/card_cover_art')
         self.kpi_labels[kpi_names.SEARCH_TIME]['end'] = int(round(time.time() * 1000))
         logger.info("Search element found")
         time.sleep(2)
-        self.pass_count += 1
-
-        self.kpi_labels[kpi_names.SEARCH_TIME]['start_sensitivity'] = 0.98
+        self.pass_count += 2
+        
+        self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME]['start_sensitivity'] = 0.999
+        self.kpi_labels[kpi_names.SEARCH_TIME]['start_sensitivity'] = 0.999
 
     def video(self):
         self.status = "Fail_video_load" 
@@ -211,27 +222,51 @@ class BupaAndroidTest(unittest.TestCase):
         start_over = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Start over")')
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4500
         start_over.click()
-        #sleep(5)
+        sleep(5)
         self.driver.find_element(MBy.ID, 'android:id/content')
         #self.driver.find_element(MBy.ID, 'com.amazon.avod.thirdpartyclient:id/ContentView')
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 3000
+        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 2500
         logger.info("video started playing")
         self.pass_count += 2
         sleep(30)
         #logger.info("Logout")
-        
+        self.driver.back()
+        sleep(10)
 
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['start_sensitivity'] = 0.99
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.17
+
+        #self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.99
+
+    def downloads(self):
+        self.status = "Fail_download"
+        self.screen_size_swipe()
+        sleep(2)
+        start = self.driver.find_elements(MBy.XPATH, '//*[@resource-id="com.amazon.avod.thirdpartyclient:id/episode_download_button"]')
+        start[0].click()
+        sleep(1)
+        download = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Start download")')
+        # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [0, 50, 500, 100]
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4900
+        download.click()
+        sleep(30)
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[200,400,320,500]] #[[180,300, 340, 450]]
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) - 1000
+        sleep(10)
+        logger.info("download sucessfull")
+        self.pass_count += 1
+        
+
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start_sensitivity'] = 0.999
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end_sensitivity'] = 0.999
 
     def screen_size_swipe(self):
         screen_size = self.driver.get_window_size()
         self.width = screen_size['width']
         self.height = screen_size['height']
         self.start_x = self.width/2
-        self.start_y = self.height * 0.8
+        self.start_y = self.height * 0.57
         self.end_x = self.width/2
-        self.end_y = self.height * 0.2
+        self.end_y = self.height * 0.3
         self.driver.swipe(self.start_x, self.start_y, self.end_x, self.end_y, 300)
 
     def get_screen_size(self):
