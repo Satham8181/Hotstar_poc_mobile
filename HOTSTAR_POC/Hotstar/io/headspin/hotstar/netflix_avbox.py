@@ -45,7 +45,8 @@ class BupaAndroidTest(unittest.TestCase):
     activity = "com.netflix.mediaclient.ui.launch.UIWebViewActivity" 
     #activity = "com.netflix.mediaclient.ui.profiles.ProfileSelectionActivity"
     #test_name = "Netflix Android"
-    test_name = "test_session"
+    #test_name = "test_session"
+    test_name = "Netflix Android"
     session_type = "page load time"
     implicitly_wait_time = 10
     delta_time = 1
