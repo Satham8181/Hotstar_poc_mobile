@@ -43,15 +43,15 @@ class BupaAndroidTest(unittest.TestCase):
     app_name = "Hotstar"
     package = "in.startv.hotstar"
     activity = "com.hotstar.MainActivity" 
-    test_name = "Hotstar Android"
+    test_name = "Hotstar Non-LoggedIn Android"
     #test_name = "test_session"
     session_type = "page load time"
-    implicitly_wait_time = 30
+    implicitly_wait_time = 20
     delta_time = 1
 
     def init_vars(self):
         # Session Configs
-        self.KPI_COUNT = 5
+        self.KPI_COUNT = 8
         self.pass_count = 0
         self.working_dir = None
         self.private_key_file = None
@@ -59,7 +59,6 @@ class BupaAndroidTest(unittest.TestCase):
         self.valid_start = False
         self.speed_value = None
         self.running_on_pbox = False
-        
 
     def init_workflow(self, video_only=False):
         args, parser = args_lib.get_args(__file__)
@@ -130,14 +129,15 @@ class BupaAndroidTest(unittest.TestCase):
     def test_hotstar(self):
         self.short_wait = WebDriverWait(self.driver, 6)
         self.wait = WebDriverWait(self.driver, 8)
-        self.long_wait =  WebDriverWait(self.driver, 30)
+        self.long_wait =  WebDriverWait(self.driver, 100)
         self.driver.implicitly_wait(self.implicitly_wait_time)
         self.driver.terminate_app(self.package)
-        #self.get_screen_size()
+        #print(self.driver.get_window_size())
         self.app_launch()
-        self.downloads()
+        self.download_tab()
         self.search()	
         self.video()	
+        self.downloads()
         self.status = "Pass"   
 
     
@@ -145,6 +145,7 @@ class BupaAndroidTest(unittest.TestCase):
         self.status="Fail_launch"
         sleep(3)
         self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) 
+        self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['start'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['start']
         self.driver.launch_app()
         try:
             #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
@@ -156,17 +157,26 @@ class BupaAndroidTest(unittest.TestCase):
             skip.click()
             #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
             self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
-        self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))
+        self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))   
+        self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['end'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['end']
         sleep(3)
         logger.info("App launched")
-        self.pass_count += 1
+        self.pass_count += 2
+    
         # self.kpi_labels[kpi_names.LAUNCH_TIME]['start_sensitivity'] = 0.65
         # self.kpi_labels[kpi_names.LAUNCH_TIME]['end_sensitivity'] = 0.86
-        # self.kpi_labels[kpi_names.LAUNCH_TIME]['segment_start'] = 0
-        # self.kpi_labels[kpi_names.LAUNCH_TIME]['segment_end'] = -1
+        
+        if self.udid == "RZCT91WFJTZ":
+            self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['segment_start'] = 0
+            self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['segment_end'] = 2
+            self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['end_sensitivity'] = 0.98
+        else:
+            self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['segment_start'] = 0
+            self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['segment_end'] = 2
 
-    def downloads(self):
-        self.status = "Fail_download"
+
+    def download_tab(self):
+        self.status = "Fail_download_tab_load"
         self.screen_size_swipe()
         sleep(2)
         download = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Downloads")')
@@ -174,70 +184,131 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 3900
         download.click()
         self.driver.find_element(MBy.ACCESSIBILITY_ID, "movie")
-        self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [[0, 0, 504, 200]]
         self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) #- 2000
+        try:
+            downloads = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("West Is Best")')
+            #self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [[0, 0, 504, 200]]
+            downloads.click()
+            dot = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_download_kebab_icon"]')
+            dot.click()
+            delete = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Delete Download")')
+            delete.click()
+            sleep(1)
+            confirm = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Delete Download")')
+            confirm.click()
+            self.driver.find_element(MBy.XPATH, '//*[@resource-id="test_tag_popup_error_message"]')
+            logger.info("Delete sucessfull")
+
+        except:
+            pass
+        
         logger.info("Downloaded videos found")
         self.pass_count += 1
         sleep(2)
 
+
         # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['segment_start'] = 0
         # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['segment_start'] = -1
-
-        #self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['start_sensitivity'] = 0.999
+        if self.udid=="KNPVGATSMVPZKJ4P":
+            self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['start_sensitivity'] = 0.999
+        else:
+            pass
         self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['end_sensitivity'] = 0.999
         
     def search(self):
         self.status = "Fail_search" 
         search_btn=self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Search")' )
+        self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         search_btn.click()
-        sleep(2)
         search_bar = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_search_bar"]')
+        self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 1000
+        sleep(3)
         self.kpi_labels[kpi_names.SEARCH_TIME]['start'] = int(round(time.time() * 1000)) + 5000
        # search_bar.click()
         search_bar.send_keys("West is Best")
-        self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_search_hero_result"]')
+        self.driver.find_element(MBy.ACCESSIBILITY_ID, "West Is Best")
+       # self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_search_hero_result"]')
         self.kpi_labels[kpi_names.SEARCH_TIME]['end'] = int(round(time.time() * 1000))
         logger.info("Search element found")
         time.sleep(2)
-        self.pass_count += 1
+        self.pass_count += 2
+
+        self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME]['start_sensitivity'] = 0.999
+        
 
     def video(self):
         self.status = "Fail_video_load" 
        # watch = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Watch Now")')
-        movie_image  = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_search_hero_result"]')
+        movie_image  = self.driver.find_element(MBy.ACCESSIBILITY_ID, "West Is Best")
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4000
         movie_image.click()
-        #sleep(2)
-        #watch = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Watch from Beginning")')
-       # watch = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Watch Latest Season")')
         watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="Test Tag Button Layout Start Icon"]')
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
         sleep(2)
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         watch.click()
-        # ad = (MBy.XPATH, '//*[@resource-id="TAG_VOD_CTA_UI"]')
-        # self.short_wait.until(EC.visibility_of_element_located(ad))
         self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_area_player_control_ui_wrapper"]')
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) - 500
-        logger.info("ad started playing")
-        time.sleep(2)
-        title = (MBy.XPATH, '//*[@resource-id="tag_player_action_bar_widget"]')
-        self.long_wait.until(EC.visibility_of_element_located(title))
-       # self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_area_player_control_ui_wrapper"]')
-        #self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) - 1000
-        logger.info("Add is over, video started playing")
-        sleep(30)
+        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) #- 1000
+        logger.info("video started playing")
+        time.sleep(30)
+        # title = (MBy.XPATH, '//*[@resource-id="tag_player_action_bar_widget"]')
+        # self.long_wait.until(EC.visibility_of_element_located(title))
+        # logger.info("Add is over, video started playing")
+        # sleep(5)
         #logger.info("Logout")
         self.pass_count += 2
 
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.99
+        if self.udid=="KNPVGATSMVPZKJ4P":
+            self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.99
+        else:
+            self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.75
+
+
+        self.driver.back()
+        sleep(2)
+
+    def downloads(self):
+        self.status = "Fail_download"
+        self.screen_size_swipe()
+        sleep(2)
+        #start = self.driver.find_elements(MBy.XPATH, '//*[@content-desc="Download"]')
+        start = self.driver.find_elements(MBy.XPATH, '//*[@resource-id="downloadIcon"]')
+        start[0].click()
+        sleep(1)
+        file_size = self.driver.find_elements(MBy.XPATH, '//*[@class = "android.view.View"]//preceding-sibling::android.widget.TextView')
+        self.text = file_size[3].get_attribute("text")
+        print(self.text)
+        download = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Start Download")')
+        # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [0, 50, 500, 100]
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4900
+        download.click()
+        complete = (MBy.XPATH, '//*[@resource-id="test_tag_download_complete_icon"]')
+        self.long_wait.until(EC.visibility_of_element_located(complete))
+        if self.udid == "RZCT91WFJTZ":
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[300,172, 363, 281]]
+        else:
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[270,500, 360, 700]]
+        if self.udid=="KNPVGATSMVPZKJ4P":
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) #- 2000
+        else:
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) - 3000
+        logger.info("download sucessfull")
+        self.pass_count += 1
+        sleep(10)
+        
+        if self.udid == "RZCT91WFJTZ":
+            #self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start_sensitivity'] = 0.
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end_sensitivity'] = 0.999
+        else:
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start_sensitivity'] = 0.74
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end_sensitivity'] = 0.999
 
     def screen_size_swipe(self):
         screen_size = self.driver.get_window_size()
         self.width = screen_size['width']
         self.height = screen_size['height']
         self.start_x = self.width/2
-        self.start_y = self.height * 0.8
+        self.start_y = self.height * 0.5
         self.end_x = self.width/2
         self.end_y = self.height * 0.2
         self.driver.swipe(self.start_x, self.start_y, self.end_x, self.end_y, 300)
@@ -246,6 +317,7 @@ class BupaAndroidTest(unittest.TestCase):
         screen_size = self.driver.get_window_size()
         self.width = screen_size['width']
         self.height = screen_size['height']
+        print(self.width, self.height)
         
 
 if __name__ == '__main__':
