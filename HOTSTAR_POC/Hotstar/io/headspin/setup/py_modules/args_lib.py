@@ -36,6 +36,11 @@ def get_args(script_location):
                         default=None,
                         required=True,
                         help="os")
+    parser.add_argument('--cd_address', '--cd_address', dest='cd_address',
+                        type=str, nargs='?',
+                        default=None,
+                        required=False,
+                        help="cd_address")
     
 
     args = parser.parse_args()
@@ -65,6 +70,7 @@ def init_args(args, self):
     self.url = self.appium_input
     self.network_type = args.network_type
     self.os = args.os
+    self.cd_address= args.cd_address
     self.access_token = self.url.split('/')[4]
     if 'localhost' in self.url or '0.0.0.0' in self.url or not self.private_key_file:
         self.running_on_pbox = True
