@@ -24,7 +24,10 @@ SPEED_VALUE = "Network Speed"
 #KPI_Labels
 
 LAUNCH_TIME = "Launch Time"
-DOWNLOAD_PAGE_LOAD_TIME = "Download Page Load Time"
+LOGO_LOAD_TIME = "Logo Load Time"
+DOWNLOAD_PAGE_LOAD_TIME = "Download Tab Load Time"
+SEARCH_TAB_LOAD_TIME = "Search Tab Load Time"
 SEARCH_TIME = "Search Time"
-VIDEO_LOAD_TIME = "Video Load Time"
+VIDEO_LOAD_TIME = "Video Play Time"
 DETAILS_PAGE_LOAD_TIME = "Details Page Load Time"
+DOWNLOAD_TIME = "Download Time"
