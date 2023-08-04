@@ -25,13 +25,18 @@ def init_timing(self):
 
 	self.data_kpis = {}
 
+	self.dut_session_id = ""
+
 	# KPI Labels
 	self.kpi_labels = {}
 	self.kpi_labels[kpi_names.LAUNCH_TIME] = {'start': None, 'end': None}
+	self.kpi_labels[kpi_names.LOGO_LOAD_TIME] = {'start': None, 'end': None}
 	self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME] = {'start': None, 'end': None}
+	self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME] = {'start': None, 'end': None}
 	self.kpi_labels[kpi_names.SEARCH_TIME] = {'start': None, 'end': None}
 	self.kpi_labels[kpi_names.VIDEO_LOAD_TIME] = {'start': None, 'end': None}
 	self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME] = {'start': None, 'end': None}
+	self.kpi_labels[kpi_names.DOWNLOAD_TIME] = {'start': None, 'end': None}
 	
 	
 	# Action Labels
