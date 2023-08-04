@@ -261,7 +261,8 @@ class hsApi:
 		print(result)
 
 	##################################### Platform APIs #############################################
-	def start_session_capture(self):
+	def start_session_capture(self,device_address=""):
+		self.device_address = device_address if device_address else self.device_address
 
 		api_endpoint = "https://api-dev.headspin.io/v0/sessions"
 		pay_load = {"session_type": "capture",
@@ -273,6 +274,13 @@ class hsApi:
 		print(r.text)
 		session_id = result['session_id']
 		return session_id
+	
+		# self.device_address = device_address if device_address else self.device_address
+        # api_endpoint = "https://api-dev.headspin.io/v0/sessions"
+        # pay_load = {"session_type": "capture",
+        #             "device_address": self.device_address,
+        #             "capture_video":True,
+        #             "capture_network":False}
 
 	def sync_perf_test(self,perf_test_id):
 		api_endpoint = "https://api-dev.headspin.io/v0/perftests/{}/dbsync".format(perf_test_id)
