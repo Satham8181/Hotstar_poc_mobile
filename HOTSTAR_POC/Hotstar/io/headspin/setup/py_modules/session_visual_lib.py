@@ -39,8 +39,17 @@ def run_add_session_data(self):
 	description_string = ""
 	for data in session_data['data']:
 		description_string += data['key'] + " : " + str(data['value']) + "\n"
+
+	print("Adding Tag")
+	if self.dut_session_id :
+		print("Dut session ID",self.dut_session_id)
+		self.hs_api_call.add_session_tags(self.session_id,bundle_id=self.package,app_name=self.app_name,app_version=self.apk_version,status=self.status,os=self.os,session_type=self.session_type,dut_session_id=self.dut_session_id,device_model= self.device_model)#file_size=self.file_size)
+		print("Dut session ID",self.dut_session_id)
+	else:
+		print("session ID",self.session_id)
+		self.hs_api_call.add_session_tags(self.session_id,bundle_id=self.package,app_name=self.app_name,app_version=self.apk_version,status=self.status,os=self.os,session_type=self.session_type)#file_size=self.file_size)
 	
-	self.hs_api_call.add_session_tags(self.session_id,bundle_id=self.package,app_name=self.app_name,app_version=self.apk_version,status=self.status,os=self.os,speed_value=self.speed_value,session_type=self.session_type)
+	#self.hs_api_call.add_session_tags(self.session_id,bundle_id=self.package,app_name=self.app_name,app_version=self.apk_version,status=self.status,os=self.os,session_type=self.session_type)#File_size=self.text)
 
 	self.hs_api_call.update_session_name_and_description(
 		self.session_id, self.test_name, description_string)
