@@ -43,16 +43,15 @@ class BupaAndroidTest(unittest.TestCase):
     app_name = "Netflix"
     package = "com.netflix.mediaclient"
     activity = "com.netflix.mediaclient.ui.launch.UIWebViewActivity" 
-    #activity = "com.netflix.mediaclient.ui.profiles.ProfileSelectionActivity"
-    test_name = "Netflix Android"
     #test_name = "test_session"
+    test_name = "Netflix Android"
     session_type = "page load time"
     implicitly_wait_time = 10
     delta_time = 1
 
     def init_vars(self):
         # Session Configs
-        self.KPI_COUNT = 5
+        self.KPI_COUNT = 8
         self.pass_count = 0
         self.working_dir = None
         self.private_key_file = None
@@ -136,9 +135,10 @@ class BupaAndroidTest(unittest.TestCase):
         self.driver.terminate_app(self.package)
         #self.get_screen_size()
         self.app_launch()
-        self.downloads()
+        self.download_tab()
         self.search()	
         self.video()	
+        self.downloads()
         self.status = "Pass"   
 
     
@@ -146,20 +146,22 @@ class BupaAndroidTest(unittest.TestCase):
         self.status="Fail_launch"
         sleep(10)
         self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) 
+        self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['start'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['start']
         self.driver.launch_app() 
         profile = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("vinoth")')
         #self.driver.find_element(MBy.ACCESSIBILITY_ID, 'Play Now')
         self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))
+        self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['video_box'] = [[30, 290, 350, 495]]
+        self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['end'] =  int(round(time.time() * 1000)) - 1500
         profile.click()
         sleep(5)
         logger.info("App launched")
-        self.pass_count += 1
+        self.pass_count += 2
         # self.kpi_labels[kpi_names.LAUNCH_TIME]['start_sensitivity'] = 0.65
-        # self.kpi_labels[kpi_names.LAUNCH_TIME]['end_sensitivity'] = 0.86
+        self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['end_sensitivity'] = 0.999
         # self.kpi_labels[kpi_names.LAUNCH_TIME]['segment_start'] = 0
         # self.kpi_labels[kpi_names.LAUNCH_TIME]['segment_end'] = -1
-
-    def downloads(self):
+    def download_tab(self):
         self.status = "Fail_download"
         sleep(2)
         download = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Downloads")')
@@ -170,6 +172,22 @@ class BupaAndroidTest(unittest.TestCase):
         #self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [[0, 0, 504, 200]]
         self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 100
         logger.info("Downloaded videos found")
+
+        try:
+            downloads = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Mismatched")')
+            downloads.click()
+            dot = self.driver.find_element(MBy.ACCESSIBILITY_ID, 'Select Items to Remove')
+            dot.click()
+            delete = self.driver.find_element(MBy.ID, 'com.netflix.mediaclient:id/2131427686')
+            delete.click()
+            sleep(1)
+            confirm = self.driver.find_element(MBy.ACCESSIBILITY_ID, 'Remove Downloads')
+            confirm.click()
+            sleep(2)
+            logger.info("Delete sucessfull")
+        except:
+            pass
+
         self.pass_count += 1
         sleep(2)
 
@@ -182,29 +200,35 @@ class BupaAndroidTest(unittest.TestCase):
     def search(self):
         self.status = "Fail_search" 
         search_btn=self.driver.find_element(MBy.ACCESSIBILITY_ID, "Search" )
+        self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         search_btn.click()
-        sleep(2)
         search_bar = self.driver.find_element(MBy.ID, "android:id/search_src_text")
-        self.kpi_labels[kpi_names.SEARCH_TIME]['start'] = int(round(time.time() * 1000)) + 5000
+        self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 1000
+        sleep(2)
+        self.kpi_labels[kpi_names.SEARCH_TIME]['start'] = int(round(time.time() * 1000)) + 7000
        # search_bar.click()
-        search_bar.send_keys("Inception")
-        self.driver.find_element(MBy.ACCESSIBILITY_ID, "Inception")
+        search_bar.send_keys("Mismatched")
+        self.driver.find_element(MBy.ACCESSIBILITY_ID, "Mismatched")
         self.kpi_labels[kpi_names.SEARCH_TIME]['end'] = int(round(time.time() * 1000)) + 1000
         logger.info("Search element found")
         time.sleep(2)
-        self.pass_count += 1
+        self.pass_count += 2
+
+        self.kpi_labels[kpi_names.SEARCH_TAB_LOAD_TIME]['end_sensitivity'] = 0.95
 
         self.kpi_labels[kpi_names.SEARCH_TIME]['start_sensitivity'] = 0.93
+        self.kpi_labels[kpi_names.SEARCH_TIME]['start_sensitivity'] = 0.999
+
 
     def video(self):
         self.status = "Fail_video_load" 
        # watch = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Watch Now")')
-        movie_image  = self.driver.find_element(MBy.ACCESSIBILITY_ID, "Inception")
+        movie_image  = self.driver.find_element(MBy.ACCESSIBILITY_ID, "Mismatched")
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4000
         movie_image.click()
         #sleep(2)
         self.driver.find_element(MBy.ACCESSIBILITY_ID, "Show controls")
-        self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) - 500
+        self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
         self.pass_count += 1
         sleep(2)
         try:
@@ -214,20 +238,43 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         watch.click()
         self.driver.find_element(MBy.ACCESSIBILITY_ID, "Show player controls")
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) #+ 2500
+        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 2500
         logger.info("video started playing")
         sleep(30)
         self.pass_count += 1
 
-        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.78
+        self.driver.back()
+        sleep(5)
+
+        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start_sensitivity'] = 0.98
+        self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end_sensitivity'] = 0.80
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end_sensitivity'] = 0.78
+
+    def downloads(self):
+        self.status = "Fail_download"
+        self.screen_size_swipe()
+        sleep(2)
+        start = self.driver.find_elements(MBy.XPATH, '//*[@content-desc="Download"]')
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4900
+        start[0].click()
+        # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [0, 50, 500, 100]
+        sleep(30)
+        #self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[270,500, 360, 700]]
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) - 3000
+        logger.info("download sucessfull")
+        self.pass_count += 1
+        sleep(10)
+
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start_sensitivity'] = 0.999
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end_sensitivity'] = 0.999
+
 
     def screen_size_swipe(self):
         screen_size = self.driver.get_window_size()
         self.width = screen_size['width']
         self.height = screen_size['height']
         self.start_x = self.width/2
-        self.start_y = self.height * 0.8
+        self.start_y = self.height * 0.66
         self.end_x = self.width/2
         self.end_y = self.height * 0.2
         self.driver.swipe(self.start_x, self.start_y, self.end_x, self.end_y, 300)
