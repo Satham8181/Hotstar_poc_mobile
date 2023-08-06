@@ -264,7 +264,7 @@ class BupaAndroidTest(unittest.TestCase):
         self.width = screen_size['width']
         self.height = screen_size['height']
         self.start_x = self.width/2
-        self.start_y = self.height * 0.57
+        self.start_y = self.height * 0.58
         self.end_x = self.width/2
         self.end_y = self.height * 0.3
         self.driver.swipe(self.start_x, self.start_y, self.end_x, self.end_y, 300)
