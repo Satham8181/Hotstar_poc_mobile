@@ -147,16 +147,17 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) 
         self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['start'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['start']
         self.driver.launch_app()
-        try:
-            #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
-            self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
-            # launch = (MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
-            # self.wait.until(EC.visibility_of_element_located(launch))
-        except:
-            skip = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_icon_paywall_header_close"]')
-            skip.click()
-            #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
-            self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+        self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("User")')
+        # try:
+        #     #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
+        #     self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+        #     # launch = (MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+        #     # self.wait.until(EC.visibility_of_element_located(launch))
+        # except:
+        #     skip = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_icon_paywall_header_close"]')
+        #     skip.click()
+        #     #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
+        #     self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
         self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))   
         self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['end'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['end']
         sleep(3)
