@@ -43,7 +43,7 @@ class BupaAndroidTest(unittest.TestCase):
     app_name = "Hotstar"
     package = "in.startv.hotstar"
     activity = "com.hotstar.MainActivity" 
-    test_name = "Hotstar Non-LoggedIn Android"
+    test_name = "Hotstar LoggedIn Android"
     #test_name = "test_session"
     session_type = "page load time"
     implicitly_wait_time = 20
