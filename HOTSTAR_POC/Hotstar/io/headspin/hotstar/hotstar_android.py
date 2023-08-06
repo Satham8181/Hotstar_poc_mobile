@@ -284,16 +284,18 @@ class BupaAndroidTest(unittest.TestCase):
         sleep(2)
         #start = self.driver.find_elements(MBy.XPATH, '//*[@content-desc="Download"]')
         start = self.driver.find_elements(MBy.XPATH, '//*[@resource-id="downloadIcon"]')
-        
-        # sleep(1)
+        start[1].click()
+        sleep(1)
         # file_size = self.driver.find_elements(MBy.XPATH, '//*[@class = "android.view.View"]//preceding-sibling::android.widget.TextView')
         # self.text = file_size[3].get_attribute("text")
         # print(self.text)
-        # download = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Start Download")')
-        # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [0, 50, 500, 100]
+        low = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Low")')
+        low.click()
+        sleep(1)
+        download = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Start Download")')
+        self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [0, 50, 500, 100]
         self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4900
-        #download.click()
-        start[0].click()
+        download.click()
         complete = (MBy.XPATH, '//*[@resource-id="test_tag_download_complete_icon"]')
         self.long_wait.until(EC.visibility_of_element_located(complete))
         if self.udid == "RZCT91WFJTZ":
