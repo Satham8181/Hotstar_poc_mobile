@@ -147,7 +147,13 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) 
         self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['start'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['start']
         self.driver.launch_app()
-        profile = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("User")')
+        try:
+            profile = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("User")')
+            self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))  
+            profile.click()
+        except:
+            self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+            self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))  
         # try:
         #     #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
         #     self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
@@ -158,9 +164,8 @@ class BupaAndroidTest(unittest.TestCase):
         #     skip.click()
         #     #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
         #     self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
-        self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))   
+         
         self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['end'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['end']
-        profile.click()
         sleep(3)
         logger.info("App launched")
         self.pass_count += 2
