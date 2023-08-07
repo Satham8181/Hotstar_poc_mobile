@@ -46,7 +46,7 @@ class BupaAndroidTest(unittest.TestCase):
     test_name = "Hotstar LoggedIn Android"
     #test_name = "test_session"
     session_type = "page load time"
-    implicitly_wait_time = 20
+    implicitly_wait_time = 10
     delta_time = 1
 
     def init_vars(self):
@@ -147,13 +147,22 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) 
         self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['start'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['start']
         self.driver.launch_app()
-        try:
-            profile = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("User")')
-            self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))  
-            profile.click()
-        except:
-            self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
-            self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))  
+        if self.udid == "RZCT91WFJTZ":
+            try:
+                self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+                self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))  
+            except:
+                profile = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("User")')
+                self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))  
+                profile.click()
+        else:
+            try:
+                profile = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("User")')
+                self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))  
+                profile.click()
+            except:
+                self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
+                self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))  
         # try:
         #     #self.driver.find_element(MBy.ID, 'in.startv.hotstar:id/exo_subtitles' )
         #     self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_image_masthead_poster"]')
@@ -200,7 +209,7 @@ class BupaAndroidTest(unittest.TestCase):
             dot.click()
             delete = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Delete Download")')
             delete.click()
-            sleep(1)
+            #sleep(1)
             confirm = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Delete Download")')
             confirm.click()
             self.driver.find_element(MBy.XPATH, '//*[@resource-id="test_tag_popup_error_message"]')
@@ -211,7 +220,7 @@ class BupaAndroidTest(unittest.TestCase):
         
         logger.info("Downloaded videos found")
         self.pass_count += 1
-        sleep(2)
+        sleep(4)
 
 
         # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['segment_start'] = 0
