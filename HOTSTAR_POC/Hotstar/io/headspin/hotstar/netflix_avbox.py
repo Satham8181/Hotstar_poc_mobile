@@ -264,7 +264,7 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4900
         start[0].click()
         # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [0, 50, 500, 100]
-        sleep(30)
+        sleep(25)
         #self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[270,500, 360, 700]]
         self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) - 3000
         logger.info("download sucessfull")
