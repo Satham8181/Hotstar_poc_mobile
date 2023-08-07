@@ -231,7 +231,7 @@ class BupaAndroidTest(unittest.TestCase):
         sleep(30)
         #logger.info("Logout")
         self.driver.back()
-        sleep(10)
+        sleep(5)
 
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['start_sensitivity'] = 0.99
 
