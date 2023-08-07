@@ -295,19 +295,16 @@ class BupaAndroidTest(unittest.TestCase):
         low.click()
         sleep(1)
         download = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Start Download")')
-        self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [0, 50, 500, 100]
         self.kpi_labels[kpi_names.DOWNLOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4900
         download.click()
         complete = (MBy.XPATH, '//*[@resource-id="test_tag_download_complete_icon"]')
         self.long_wait.until(EC.visibility_of_element_located(complete))
         if self.udid == "RZCT91WFJTZ":
-            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[300,172, 363, 281]]
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[266,366,364,564]] #[[300,172, 363, 281]]
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) - 3000
         else:
             self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[270,500, 360, 700]]
-        if self.udid=="KNPVGATSMVPZKJ4P":
-            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) #- 2000
-        else:
-            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) - 3000
+            self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) #- 2000    
         logger.info("download sucessfull")
         self.pass_count += 1
         sleep(10)
