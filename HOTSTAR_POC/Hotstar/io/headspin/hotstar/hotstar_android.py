@@ -264,7 +264,7 @@ class BupaAndroidTest(unittest.TestCase):
         # except:
         watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="Test Tag Button Layout Start Icon"]')
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
-        #sleep(5)
+        sleep(3)
         watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="Test Tag Button Layout Start Icon"]')
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         watch.click()
