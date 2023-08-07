@@ -162,7 +162,7 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.LAUNCH_TIME]['end'] = int(round(time.time() * 1000))
         self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['end'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['end']
         profile.click()
-        sleep(3)
+        sleep(5)
         logger.info("App launched")
         self.pass_count += 2
     
@@ -173,7 +173,8 @@ class BupaAndroidTest(unittest.TestCase):
 
     def download_tab(self):
         self.status = "Fail_download_tab_load"
-        self.screen_size_swipe()
+        self.driver.swipe(250, 700, 250, 200, 200)
+        #self.screen_size_swipe()
         sleep(2)
         download = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("Downloads")')
         # self.kpi_labels[kpi_names.DOWNLOAD_PAGE_LOAD_TIME]['video_box'] = [0, 50, 500, 100]
