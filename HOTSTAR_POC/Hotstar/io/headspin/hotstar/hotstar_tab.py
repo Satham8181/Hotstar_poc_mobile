@@ -47,7 +47,7 @@ class BupaAndroidTest(unittest.TestCase):
     test_name = "Hotstar LoggedIn Tab"
     #test_name = "test_session"
     session_type = "page load time"
-    implicitly_wait_time = 10
+    implicitly_wait_time = 15
     delta_time = 1
 
     def init_vars(self):
@@ -248,7 +248,7 @@ class BupaAndroidTest(unittest.TestCase):
         except:
             watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_label_button_layout"]')
             self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
-        sleep(2)
+        #sleep(2)
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         watch.click()
         self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_area_player_control_ui_wrapper"]')
