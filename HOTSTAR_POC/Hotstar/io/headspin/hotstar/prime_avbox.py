@@ -142,6 +142,7 @@ class BupaAndroidTest(unittest.TestCase):
     
     def app_launch(self):
         self.status="Fail_launch"
+        sleep(10)
         self.dut_session_id=self.hs_api_call.start_session_capture()
         sleep(10)
         self.session_id=self.hs_api_call.start_session_capture(device_address=self.cd_address)
