@@ -249,16 +249,17 @@ class BupaAndroidTest(unittest.TestCase):
         movie_image  = self.driver.find_element(MBy.ACCESSIBILITY_ID, "West Is Best")
         self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 4000
         movie_image.click()
-        try:
-            watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_label_button_layout"]')
-            self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
-        except:
-            watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="Test Tag Button Layout Start Icon"]')
-            self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
-        #sleep(2)
+        # try:
+        #     watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_label_button_layout"]')
+        #     self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
+        # except:
+        watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="Test Tag Button Layout Start Icon"]')
+        self.kpi_labels[kpi_names.DETAILS_PAGE_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 500
+        #sleep(5)
+        watch = self.driver.find_element(MBy.XPATH, '//*[@resource-id="Test Tag Button Layout Start Icon"]')
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         watch.click()
-        sleep(2)
+       # sleep(2)
         self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_area_player_control_ui_wrapper"]')
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) #- 1000
         logger.info("video started playing")
