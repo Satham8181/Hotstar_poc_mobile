@@ -258,6 +258,7 @@ class BupaAndroidTest(unittest.TestCase):
         #sleep(2)
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5000
         watch.click()
+        sleep(2)
         self.driver.find_element(MBy.XPATH, '//*[@resource-id="tag_area_player_control_ui_wrapper"]')
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) #- 1000
         logger.info("video started playing")
