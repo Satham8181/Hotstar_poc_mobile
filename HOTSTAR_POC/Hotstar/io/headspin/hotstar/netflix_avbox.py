@@ -144,11 +144,12 @@ class BupaAndroidTest(unittest.TestCase):
     
     def app_launch(self):
         self.status="Fail_launch"
+        sleep(10)
         self.dut_session_id=self.hs_api_call.start_session_capture()
         sleep(10)
         self.session_id=self.hs_api_call.start_session_capture(device_address=self.cd_address)
-        self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) 
-        self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['start'] = self.kpi_labels[kpi_names.LAUNCH_TIME]['start']
+        self.kpi_labels[kpi_names.LAUNCH_TIME]['start'] = int(round(time.time() * 1000)) + 1000
+        self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['start'] = int(round(time.time() * 1000)) + 5500
         self.driver.launch_app() 
         profile = self.driver.find_element(MBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("vinoth")')
         #self.driver.find_element(MBy.ACCESSIBILITY_ID, 'Play Now')
@@ -159,10 +160,11 @@ class BupaAndroidTest(unittest.TestCase):
         sleep(5)
         logger.info("App launched")
         self.pass_count += 2
+
         self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['start_sensitivity'] = 0.999
         self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['end_sensitivity'] = 0.999
-        # self.kpi_labels[kpi_names.LAUNCH_TIME]['segment_start'] = 0
-        # self.kpi_labels[kpi_names.LAUNCH_TIME]['segment_end'] = -1
+        self.kpi_labels[kpi_names.LAUNCH_TIME]['segment_start'] = 0
+        self.kpi_labels[kpi_names.LOGO_LOAD_TIME]['segment_start'] = 0
     def download_tab(self):
         self.status = "Fail_download"
         sleep(2)
