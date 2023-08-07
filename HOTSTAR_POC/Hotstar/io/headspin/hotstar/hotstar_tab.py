@@ -289,7 +289,7 @@ class BupaAndroidTest(unittest.TestCase):
         download.click()
         complete = (MBy.XPATH, '//*[@resource-id="test_tag_download_complete_icon"]')
         self.long_wait.until(EC.visibility_of_element_located(complete))
-        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[355,500, 500, 600]] #[[250,300, 400, 700]]
+        self.kpi_labels[kpi_names.DOWNLOAD_TIME]['video_box'] = [[360,425, 500, 600]] #[[250,300, 400, 700]]
         self.kpi_labels[kpi_names.DOWNLOAD_TIME]['end'] = int(round(time.time() * 1000)) - 1000
         logger.info("download sucessfull")
         self.pass_count += 1
