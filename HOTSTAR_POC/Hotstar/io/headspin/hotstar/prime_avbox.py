@@ -233,7 +233,7 @@ class BupaAndroidTest(unittest.TestCase):
         self.kpi_labels[kpi_names.VIDEO_LOAD_TIME]['end'] = int(round(time.time() * 1000)) + 2000
         logger.info("video started playing")
         self.pass_count += 2
-        sleep(30)
+        sleep(25)
         #logger.info("Logout")
         self.driver.back()
         sleep(10)
